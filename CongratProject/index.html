@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Congratulations! 🎉</title>
+    <!-- โหลดฟอนต์ภาษาไทยน่ารักๆ -->
+    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;700&family=Prompt:wght@300;600&display=swap" rel="stylesheet">
+    <!-- โหลดไอคอน -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* --- 1. การตั้งค่าพื้นฐาน --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 50%, #e0c3fc 100%);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+        }
+
+        /* --- หน้าจอ Intro (หน้าแรกสุด) --- */
+        #intro-screen {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 50%, #e0c3fc 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1s ease-in-out, visibility 1s;
+        }
+
+        .intro-text {
+            font-family: 'Mali', cursive;
+            font-size: 1.5rem;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 0 20px;
+            line-height: 1.6;
+        }
+
+        .intro-btn {
+            background: #fff;
+            color: #3498db;
+            border: 2px solid #3498db;
+            padding: 12px 35px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Mali', cursive;
+            font-weight: bold;
+            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.2);
+            transition: all 0.3s ease;
+            animation: pulseBtnIntro 2s infinite;
+        }
+
+        .intro-btn:hover {
+            background: #3498db;
+            color: #fff;
+            transform: translateY(-3px);
+        }
+
+        @keyframes pulseBtnIntro {
+            0% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(52, 152, 219, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0); }
+        }
+
+        /* --- ส่วนของการ์ดหลัก (ซ่อนไว้ตอนแรก) --- */
+        #main-screen {
+            opacity: 0;
+            visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        /* --- 2. ฉากหลังและดอกเดซี่ --- */
+        .daisy-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1;
+        }
+
+        .daisy {
+            position: absolute;
+            width: 35px; height: 35px;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><g fill='%23FFF'><ellipse cx='50' cy='20' rx='10' ry='20'/><ellipse cx='50' cy='80' rx='10' ry='20'/><ellipse cx='20' cy='50' rx='20' ry='10'/><ellipse cx='80' cy='50' rx='20' ry='10'/><ellipse cx='28' cy='28' rx='18' ry='10' transform='rotate(45 28 28)'/><ellipse cx='72' cy='72' rx='18' ry='10' transform='rotate(45 72 72)'/><ellipse cx='28' cy='72' rx='18' ry='10' transform='rotate(-45 28 72)'/><ellipse cx='72' cy='28' rx='18' ry='10' transform='rotate(-45 72 28)'/></g><circle cx='50' cy='50' r='14' fill='%23FFD700'/><circle cx='46' cy='46' r='4' fill='%23FFF' opacity='0.8'/></svg>");
+            background-size: contain;
+            background-repeat: no-repeat;
+            animation: floatUp linear infinite;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) rotate(0deg) scale(0.5); opacity: 0; }
+            10% { opacity: 0.9; }
+            90% { opacity: 0.9; }
+            100% { transform: translateY(-10vh) rotate(360deg) scale(1.2); opacity: 0; }
+        }
+
+        /* ดาววิบวับพื้นหลัง */
+        .sparkle {
+            position: absolute;
+            width: 8px; height: 8px;
+            background: radial-gradient(circle, #FFF 20%, transparent 70%);
+            border-radius: 50%;
+            animation: twinkle 2s infinite ease-in-out alternate;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .sparkle.blue { box-shadow: 0 0 10px #87CEEB, 0 0 20px #3498db; }
+        .sparkle.pink { box-shadow: 0 0 10px #FFB6C1, 0 0 20px #FF69B4; }
+
+        @keyframes twinkle {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.5); }
+        }
+
+        /* --- 3. การ์ดแสดงผล --- */
+        .card {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 35px;
+            padding: 25px 20px; /* ลด Padding ลงเพื่อให้ของข้างในไม่ตกขอบ */
+            width: 85%;
+            max-width: 380px;
+            max-height: 95vh;
+            overflow-y: auto;
+            text-align: center;
+            box-shadow: 
+                0 25px 60px rgba(0,0,0,0.15),
+                inset 0 0 0 1px rgba(255,255,255,0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: scale(0.8);
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        #main-screen.active .card {
+            transform: scale(1);
+            animation: floatCard 4s ease-in-out infinite 0.8s;
+        }
+
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-12px) scale(1); }
+        }
+
+        /* --- 4. กรอบรูปพรีเมียม --- */
+        .photo-wrapper {
+            position: relative;
+            margin-bottom: 15px; /* ลด margin */
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+        .photo-wrapper:hover, .photo-wrapper:active { transform: scale(1.08) rotate(3deg); }
+
+        .photo-frame {
+            width: 150px; /* ย่อขนาดรูปลงเพื่อให้พื้นที่ข้อความเพิ่มขึ้น */
+            height: 210px; 
+            background: #fff; padding: 6px;
+            border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
+            transform: rotate(-2deg); position: relative; z-index: 2;
+        }
+        .photo-wrapper::before {
+            content: ''; position: absolute; top: 5px; left: 5px; 
+            width: 150px; height: 210px; /* ต้องเท่ากับ .photo-frame */
+            background: #87CEEB; border-radius: 12px; transform: rotate(3deg); z-index: 1; opacity: 0.6;
+        }
+        .photo-frame img {
+            width: 100%; height: 100%; object-fit: cover; object-position: top center;
+            border-radius: 8px; border: 1px solid #eee; box-shadow: inset 0 0 0 2px #FFD700; 
+        }
+
+        /* --- 5. หัวข้อ --- */
+        h1 {
+            font-family: 'Mali', cursive; font-size: 2.2rem; margin-bottom: 3px;
+            background: linear-gradient(to right, #1a5f7a, #3498db, #f1c40f, #e67e22, #3498db, #1a5f7a);
+            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite; filter: drop-shadow(0 2px 0 rgba(255,255,255,0.5));
+        }
+        @keyframes shine { to { background-position: 200% center; } }
+        h2 { color: #7f8c8d; font-size: 0.85rem; margin-bottom: 15px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* --- 6. กล่องข้อความ --- */
+        .message-box {
+            background: rgba(240, 248, 255, 0.7); border-radius: 15px; 
+            padding: 15px 20px; /* ลด padding */
+            width: 100%;
+            position: relative; margin-bottom: 15px; border-left: 5px solid #3498db;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-align: left;
+        }
+        .message-box i {
+            position: absolute; top: -10px; right: 20px; font-size: 1.5rem; color: #3498db;
+            background: #fff; padding: 5px 10px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        p.message {
+            color: #555; font-size: 0.85rem; line-height: 1.6; margin: 0; 
+            min-height: 150px; /* กำหนดความสูงตายตัวให้กล่อง เพื่อไม่ให้ปุ่มข้างล่างโดนดันตกลงไปตอนกำลังพิมพ์ */
+            font-family: 'Mali', cursive;
+            word-break: break-word; /* ป้องกันคำทะลุกล่อง */
+        }
+        #typewriter-text { border-right: 2px solid #3498db; animation: blink 0.75s step-end infinite; }
+        @keyframes blink { 50% { border-color: transparent; } }
+
+        #secret-msg {
+            font-family: 'Mali', cursive; color: #e74c3c; font-size: 1.1rem; font-weight: bold;
+            margin-top: 0; opacity: 0; transform: translateY(10px); transition: all 0.5s ease;
+            height: 0; overflow: hidden; width: 100%;
+        }
+        #secret-msg.show { opacity: 1; transform: translateY(0); height: auto; margin-top: 15px; padding-bottom: 5px; }
+
+        /* --- ปุ่มกดฉลอง --- */
+        .btn-celebrate {
+            background: linear-gradient(90deg, #2980b9, #6dd5fa); color: white; border: none;
+            padding: 12px 40px; font-size: 1.1rem; border-radius: 50px; cursor: pointer;
+            font-family: 'Prompt', sans-serif; font-weight: 600; box-shadow: 0 10px 25px rgba(52, 152, 219, 0.4);
+            transition: all 0.3s ease; position: relative; z-index: 20; width: 80%;
+        }
+        .btn-celebrate:hover { transform: translateY(-2px); box-shadow: 0 15px 30px rgba(52, 152, 219, 0.5); }
+        .btn-celebrate:active { transform: scale(0.95); }
+
+        /* --- Canvas & Tap Effect --- */
+        canvas#confetti { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 20; pointer-events: none; }
+        
+        .tap-flower {
+            position: absolute; width: 40px; height: 40px;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><g fill='%23FFF'><ellipse cx='50' cy='20' rx='10' ry='20'/><ellipse cx='50' cy='80' rx='10' ry='20'/><ellipse cx='20' cy='50' rx='20' ry='10'/><ellipse cx='80' cy='50' rx='20' ry='10'/><ellipse cx='28' cy='28' rx='18' ry='10' transform='rotate(45 28 28)'/><ellipse cx='72' cy='72' rx='18' ry='10' transform='rotate(45 72 72)'/><ellipse cx='28' cy='72' rx='18' ry='10' transform='rotate(-45 28 72)'/><ellipse cx='72' cy='28' rx='18' ry='10' transform='rotate(-45 72 28)'/></g><circle cx='50' cy='50' r='14' fill='%23FFD700'/><circle cx='46' cy='46' r='4' fill='%23FFF' opacity='0.8'/></svg>");
+            background-size: contain; pointer-events: none; animation: popOut 0.8s ease-out forwards; z-index: 15;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        @keyframes popOut {
+            0% { transform: scale(0) rotate(0deg); opacity: 1; }
+            50% { transform: scale(1.5) rotate(180deg); opacity: 1; }
+            100% { transform: scale(1) rotate(360deg); opacity: 0; }
+        }
+        
+        .hint-text {
+            position: absolute; bottom: 20px; color: rgba(255,255,255,0.9);
+            font-size: 0.8rem; animation: fadeHint 2s infinite; z-index: 5; text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        @keyframes fadeHint { 0%,100% {opacity: 0.6} 50% {opacity: 1}}
+
+        /* --- ปุ่มเปิดเพลง --- */
+        .music-btn {
+            position: absolute; top: 20px; right: 20px; width: 45px; height: 45px;
+            background: rgba(255, 255, 255, 0.8); border-radius: 50%; display: flex;
+            justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            z-index: 100; border: none; color: #3498db; font-size: 1.2rem; transition: all 0.3s ease;
+            animation: floatBtn 3s ease-in-out infinite;
+        }
+        .music-btn.playing { background: #3498db; color: #fff; animation: pulseBtn 1.5s infinite; }
+        @keyframes floatBtn { 0%,100%{transform: translateY(0)} 50%{transform: translateY(-5px)} }
+        @keyframes pulseBtn { 0%{box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7)} 70%{box-shadow: 0 0 0 10px rgba(52, 152, 219, 0)} 100%{box-shadow: 0 0 0 0 rgba(52, 152, 219, 0)} }
+    </style>
+</head>
+<body onclick="spawnFlower(event)">
+
+    <!-- ไฟล์เสียง MP3 ของเรา -->
+    <audio id="bg-music" src="music.mp3" loop preload="auto"></audio>
+
+    <!-- ========================================== -->
+    <!-- 1. หน้าจอแรก: หลอกว่าไม่มีอะไรให้ (Intro) -->
+    <!-- ========================================== -->
+    <div id="intro-screen">
+        <p class="intro-text">
+            ไม่มีดอกไม้ช่อโตๆ 💐 <br> หรือตุ๊กตา ให้หรอกนะ...
+        </p>
+        <button class="intro-btn" onclick="startSurprise(event)">
+            แต่มีสิ่งนี้ให้... กดดูสิ! 👈
+        </button>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 2. หน้าจอหลัก: ของจริง (Main Screen) -->
+    <!-- ========================================== -->
+    <div id="main-screen">
+        <div class="daisy-container" id="daisyContainer"></div>
+        <canvas id="confetti"></canvas>
+
+        <button class="music-btn" id="musicToggle" onclick="toggleMusic(event)">
+            <i class="fas fa-music"></i>
+        </button>
+
+        <div class="card" onclick="event.stopPropagation()">
+            <div class="photo-wrapper">
+                <div class="photo-frame">
+                    <img src="ru8.jpg" alt="Graduate Photo" id="profile-img">
+                </div>
+            </div>
+            
+            <h1>congratulations!</h1>
+            <h2>ยินดีด้วยนะบัณฑิตป้ายแดง! 🎓</h2>
+            
+            <div class="message-box">
+                <i class="fas fa-quote-right"></i>
+                <p class="message">
+                    <span id="typewriter-text"></span>
+                </p>
+            </div>
+
+            <button class="btn-celebrate" onclick="celebrate(event)">เย้!! 🎉🎉🎉</button>
+
+            <div id="secret-msg">ขอให้มีความสุขมากๆ นะ จุ้ฟฟมั้วว😽 💙🌼✨</div>
+        </div>
+
+        <div class="hint-text">✨ แตะที่ว่างเพื่อเสกดอกไม้ ✨</div>
+    </div>
+
+    <script>
+        var audioPlayer = document.getElementById('bg-music');
+        var isMusicPlaying = false;
+        var hasStarted = false; // เช็คว่าเริ่มหรือยัง ป้องกันดอกไม้เด้งตอนหน้าแรก
+
+        // --- ฟังก์ชันเซอร์ไพรส์ (เมื่อกดปุ่มหน้าแรก) ---
+        function startSurprise(event) {
+            if (event) event.stopPropagation(); // หยุดไม่ให้ดอกไม้เด้งจากการคลิกปุ่ม
+            hasStarted = true;
+
+            // 1. ซ่อนหน้าแรก
+            const intro = document.getElementById('intro-screen');
+            intro.style.opacity = '0';
+            
+            setTimeout(() => {
+                intro.style.visibility = 'hidden';
+                
+                // 2. โชว์หน้าหลัก
+                const mainScreen = document.getElementById('main-screen');
+                mainScreen.style.visibility = 'visible';
+                mainScreen.style.opacity = '1';
+                mainScreen.classList.add('active'); // เริ่ม animation การ์ดลอย
+
+                // 3. เริ่มสร้างดอกไม้ลอยและดาว
+                createBackgroundElements();
+
+                // 4. เริ่มพิมพ์ข้อความอวยพร
+                setTimeout(typeWriter, 800);
+
+                // 5. 🎵 เล่นเพลงอัตโนมัติ 🎵 (รอบนี้เล่นได้แน่นอนเพราะเกิดจากการคลิกของ User)
+                audioPlayer.play().then(() => {
+                    isMusicPlaying = true;
+                    const btn = document.getElementById('musicToggle');
+                    btn.classList.add('playing');
+                    btn.querySelector('i').classList.remove('fa-music');
+                    btn.querySelector('i').classList.add('fa-pause');
+                }).catch(err => console.log("เสียงไม่เล่น: ", err));
+
+            }, 800); // รอให้หน้าแรก fade out ค่อยโชว์หน้าหลัก
+        }
+
+        // --- ระบบควบคุมเพลง ---
+        function toggleMusic(event) {
+            if(event) event.stopPropagation();
+            const btn = document.getElementById('musicToggle');
+            const icon = btn.querySelector('i');
+
+            if (!isMusicPlaying) {
+                audioPlayer.play();
+                isMusicPlaying = true;
+                btn.classList.add('playing');
+                icon.classList.remove('fa-music');
+                icon.classList.add('fa-pause');
+            } else {
+                audioPlayer.pause();
+                isMusicPlaying = false;
+                btn.classList.remove('playing');
+                icon.classList.remove('fa-pause');
+                icon.classList.add('fa-music');
+            }
+        }
+
+        // --- ข้อความพิมพ์ดีด ---
+        const textToType 
+            = "ในที่สุดก็ทำได้! ยินดีด้วยกับใบปริญญาใบแรก เป็นรางวัลของความมุ่งมั่นตั้งใจจริงๆ ขอให้เติบโตอย่างงดงามในเส้นทางที่เลือกนะ ขอให้ก้าวต่อไปในชีวิตการทำงานเต็มไปด้วยโอกาสที่ดีและประสบความสำเร็จยิ่งๆ ขึ้นไป ขอให้เส้นทางข้างหน้าโรยด้วยกลีบกุหลาบและเดซี่นะ 🌼💙";
+        const typeWriterElement = document.getElementById('typewriter-text');
+        let charIndex = 0;
+
+        function typeWriter() {
+            if (charIndex < textToType.length) {
+                typeWriterElement.innerHTML += textToType.charAt(charIndex);
+                charIndex++;
+                // แก้ไขความเร็วการพิมพ์ให้พอดี (จาก 350 เหลือ 40)
+                setTimeout(typeWriter, 350);
+            } else {
+                typeWriterElement.style.borderRight = "none";
+            }
+        }
+
+        // --- สร้างดอกเดซี่และดาววิบวับ ---
+        function createBackgroundElements() {
+            const container = document.getElementById('daisyContainer');
+            for (let i = 0; i < 15; i++) {
+                const daisy = document.createElement('div');
+                daisy.classList.add('daisy');
+                daisy.style.left = Math.random() * 100 + 'vw';
+                daisy.style.animationDuration = (Math.random() * 5 + 8) + 's';
+                daisy.style.animationDelay = Math.random() * 5 + 's';
+                daisy.style.transform = `scale(${Math.random() * 0.5 + 0.5})`;
+                container.appendChild(daisy);
+            }
+            for (let i = 0; i < 30; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                if (Math.random() > 0.5) sparkle.classList.add('blue');
+                else sparkle.classList.add('pink');
+                sparkle.style.left = Math.random() * 100 + 'vw';
+                sparkle.style.top = Math.random() * 100 + 'vh';
+                sparkle.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(sparkle);
+            }
+        }
+
+        // --- เสกดอกไม้ (จะทำได้ก็ต่อเมื่อผ่านหน้าแรกมาแล้ว) ---
+        function spawnFlower(e) {
+            if (!hasStarted) return; // ถ้ายังอยู่หน้าแรก กดแล้วดอกไม้ไม่เด้ง
+
+            const flower = document.createElement('div');
+            flower.classList.add('tap-flower');
+            flower.style.left = (e.clientX - 20) + 'px';
+            flower.style.top = (e.clientY - 20) + 'px';
+            flower.style.transform = `rotate(${Math.random() * 360}deg)`;
+            document.body.appendChild(flower);
+            setTimeout(() => flower.remove(), 800);
+        }
+
+        // --- พลุ & ข้อความลับ ---
+        let canvas = document.getElementById('confetti');
+        let ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let pieces = [];
+        let isCelebrating = false;
+
+        function randomColor() {
+            return ['#f1c40f', '#e74c3c', '#8e44ad', '#3498db', '#2ecc71', '#ffffff'][Math.floor(Math.random() * 6)];
+        }
+
+        function Piece(x, y) {
+            this.x = x; this.y = y;
+            this.size = (Math.random() * 0.5 + 0.75) * 10;
+            this.gravity = (Math.random() * 0.5 + 0.75) * 0.8;
+            this.rotation = (Math.random() * 360) * Math.PI / 180;
+            this.rotationSpeed = (Math.random() * -0.5 + 0.5) * 0.1;
+            this.color = randomColor();
+            this.velocityX = (Math.random() - 0.5) * 4;
+        }
+
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            pieces.forEach((p, index) => {
+                p.y += p.gravity;
+                p.x += p.velocityX;
+                p.rotation += p.rotationSpeed;
+                ctx.save();
+                ctx.fillStyle = p.color;
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rotation);
+                ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                ctx.restore();
+                if (p.y > canvas.height) pieces.splice(index, 1);
+            });
+            if (isCelebrating || pieces.length > 0) requestAnimationFrame(update);
+        }
+
+        function celebrate(event) {
+            if (event) event.stopPropagation();
+            
+            const btn = document.querySelector('.btn-celebrate');
+            const secretMsg = document.getElementById('secret-msg');
+
+            btn.innerText = "เย้!! 🎉🎉🎉";
+            btn.style.transform = "scale(1.05)";
+            setTimeout(() => btn.style.transform = "scale(1)", 200);
+
+            secretMsg.classList.add('show');
+
+            for (let i = 0; i < 150; i++) {
+                pieces.push(new Piece(window.innerWidth / 2, window.innerHeight / 2));
+            }
+            
+            if (!isCelebrating) {
+                isCelebrating = true;
+                update();
+            }
+
+            setTimeout(() => {
+                isCelebrating = false;
+                btn.innerText = "ฉลองอีกครั้ง! 🎉";
+                secretMsg.classList.remove('show');
+            }, 4000);
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
